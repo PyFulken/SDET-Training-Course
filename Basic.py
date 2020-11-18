@@ -46,6 +46,9 @@ for item in results.json():
 
 #Testing if the headers and cookies are correct:
 test_data = {'Date': 'Wed, 18 Nov 2020 16:06:02 GMT', 'Server': 'Apache', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST', 'Access-Control-Max-Age': '3600', 'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive', 'Transfer-Encoding': 'chunked', 'Content-Type': 'application/json;charset=UTF-8'}
+
+#Bad, poorly readable, expensive way I came up with:
+"""
 for (key, value), (test_key, test_value) in zip(results.headers.items(), test_data.items()):
     if key == "Date":
         continue
@@ -53,3 +56,18 @@ for (key, value), (test_key, test_value) in zip(results.headers.items(), test_da
     assert value == test_value
 
 print(results.headers == test_data)
+"""
+
+#Good, readable, light way my IT friend told me:
+for key in results.headers.keys():
+    if key == "Date":
+        continue
+    assert key in test_data.keys()
+    assert results.headers[key] == test_data[key]
+
+#Version 2 of his fix:
+assert results.headers.keys() == test_data.keys()
+for key in results.headers.keys():
+    if key == "Date":
+        continue
+    assert results.headers[key] == test_data[key]
