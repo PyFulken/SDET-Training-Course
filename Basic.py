@@ -7,6 +7,10 @@ import json
 #      json.loads deserializes a string
 
 
+
+# GET HANDLING:-----------------------------------------------------------------------------------------------------------------------------------
+
+
 #GET request    request.get("URL", params=Dictionary)
 results=requests.get("http://216.10.245.166/Library/GetBook.php", params={"AuthorName": "Raul"})
 
@@ -17,7 +21,8 @@ if results.status_code == 200:
 else:
     print(f"Error response got. Error code: {results.status_code}")
 
-#Asserts also can do it, but I fail to see how they're better than handling the error without crashing the entire thing. 
+#Asserts also can do it, but I fail to see how they're better than handling the error without crashing the entire thing.
+#Unless the point IS to crash everything during tests?... 
 #assert results.status_code==200
 
 #Response Data handling varies a lot from API to API depending on what type the response gets sent.
@@ -29,7 +34,22 @@ else:
 #print(type(json.loads(results.text)[0]))
 
 #Good way to do it if a list gets sent:
-print(results.json()[0])
+for item in results.json():
+    print(item)
 
 #Good way to do it if a normal JSON gets sent:
 #print(results.json())
+
+#How to check response headers/cookies, header/cookies are a dictionary:
+#print(results.headers)
+#print(results.cookies)
+
+#Testing if the headers and cookies are correct:
+test_data = {'Date': 'Wed, 18 Nov 2020 16:06:02 GMT', 'Server': 'Apache', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST', 'Access-Control-Max-Age': '3600', 'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive', 'Transfer-Encoding': 'chunked', 'Content-Type': 'application/json;charset=UTF-8'}
+for (key, value), (test_key, test_value) in zip(results.headers.items(), test_data.items()):
+    if key == "Date":
+        continue
+    assert key == test_key
+    assert value == test_value
+
+print(results.headers == test_data)
