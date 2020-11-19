@@ -103,3 +103,16 @@ from utilities.configuration import *
 
 print(Get_API_URL())
 #Module is not importing correctly. Why? Did I ever?
+#The module was in the wrong folder.
+#Outside of it.                                                                                                 How did I graduate?
+
+
+#Instead of having the API resource we're testing hardcoded everytime we test it, have a Class with all the variables well bundled together.
+#This could be done with the config file as well but it's good to keep things separate.
+from utilities.API_resources import *
+
+print(APIResources.add_book)
+
+#Now, putting it all together in one variable at the beginning  of the test cases:
+post_url = Get_API_URL() + APIResources.add_book
+print(post_url)
