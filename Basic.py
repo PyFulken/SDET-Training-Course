@@ -120,4 +120,7 @@ print(post_url)
 
 #Handling Authentication required for API requesting:
 from utilities.credentials import *
-authenticated_get = requests.get("https://api.github.com/user", auth=(get_user(), get_pass()))
+print(get_user())
+print(get_pass())
+authenticated_get = requests.get('https://api.github.com/user', auth=(get_user(), get_pass()))
+print(authenticated_get.status_code)
