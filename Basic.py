@@ -123,4 +123,6 @@ from utilities.credentials import *
 print(get_user())
 print(get_pass())
 authenticated_get = requests.get('https://api.github.com/user', auth=(get_user(), get_pass()))
+another_get=requests.get("https://httpbin.org/", auth=("user","passwd"))
 print(authenticated_get.status_code)
+print(another_get.status_code)
