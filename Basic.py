@@ -95,10 +95,11 @@ print(post_generated_results.status_code)
 import configparser
 
 config = configparser.ConfigParser()
-config.read("utilities/config.ini")
+config.read("SDET Training Course/utilities/config.ini")
 print(config["API"]["URL"])
 
 #Alternatively, have a python file with functions that return all of these:
-from utilities import configuration
+from utilities.configuration import *
 
 print(Get_API_URL())
+#Module is not importing correctly. Why? Did I ever?
