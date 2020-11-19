@@ -113,6 +113,11 @@ from utilities.API_resources import *
 
 print(APIResources.add_book)
 
-#Now, putting it all together in one variable at the beginning  of the test cases:
+#Now, putting it all together in one variable at the beginning of the test cases:
 post_url = Get_API_URL() + APIResources.add_book
 print(post_url)
+
+
+#Handling Authentication required for API requesting:
+from utilities.credentials import *
+authenticated_get = requests.get("https://api.github.com/user", auth=(get_user(), get_pass()))
