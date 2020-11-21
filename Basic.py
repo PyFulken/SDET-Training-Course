@@ -15,11 +15,13 @@ import json
 results = requests.get("http://216.10.245.166/Library/GetBook.php", params={"AuthorName": "Raul"})
 
 #Check the status code of the response:
+"""
 if results.status_code == 200:
     print("Success response got.")
     #Do Stuff Code
 else:
     print(f"Error response got. Error code: {results.status_code}")
+"""
 
 #Asserts also can do it, but I fail to see how they're better than handling the error without crashing the entire thing.
 #Unless the point IS to crash everything during tests?... 
@@ -34,8 +36,10 @@ else:
 #print(type(json.loads(results.text)[0]))
 
 #Good way to do it if a list gets sent:
+"""
 for item in results.json():
     print(item)
+"""
 
 #Good way to do it if a normal JSON gets sent:
 #print(results.json())
@@ -81,14 +85,14 @@ for key in results.headers.keys():
 new_book = {'name':'Learn Appium with Javascript', 'isbn':'lqwsdfmn', 'aisle':'78sdf1', "author":"BoatyMCBoatface"}
 custom_headers={"Content-Type":"application/json"}
 post_results = requests.post("http://216.10.245.166/Library/Addbook.php", new_book, custom_headers)
-print(post_results.status_code)
+#print(post_results.status_code)
 #print(post_results.json())            API is bugged, no response on success.
 
 #Better Testing Payload Management:
 #Have an external python file with functions that return the JSON, jsut make sure the import is actually at the top like a normal human being.
 import payload
 post_generated_results = requests.post("http://216.10.245.166/Library/Addbook.php", payload.Generate(), custom_headers)
-print(post_generated_results.status_code)
+#print(post_generated_results.status_code)
 
 #Global Configs without dotenv:
 #Create folder with __init__.py and a filename.ini file
@@ -96,12 +100,12 @@ import configparser
 
 config = configparser.ConfigParser()
 config.read("SDET Training Course/utilities/config.ini")
-print(config["API"]["URL"])
+#print(config["API"]["URL"])
 
 #Alternatively, have a python file with functions that return all of these:
 from utilities.configuration import *
 
-print(Get_API_URL())
+#print(Get_API_URL())
 #Module is not importing correctly. Why? Did I ever?
 #The module was in the wrong folder.
 #Outside of it.                                                                                                 How did I graduate?
@@ -111,18 +115,18 @@ print(Get_API_URL())
 #This could be done with the config file as well but it's good to keep things separate.
 from utilities.API_resources import *
 
-print(APIResources.add_book)
+#print(APIResources.add_book)
 
 #Now, putting it all together in one variable at the beginning of the test cases:
 post_url = Get_API_URL() + APIResources.add_book
-print(post_url)
+#print(post_url)
 
 
 #Handling Authentication required for API requesting:
 from utilities.credentials import *
 login_token = (get_User(), get_OAuth())
 authenticated_get = requests.get('https://api.github.com/user', auth=login_token)
-print(authenticated_get.status_code)
+#print(authenticated_get.status_code)
 
 #GitHub disabled pasword logins via APIs, only OAuth is allowed. And it's a success!
 #another_get=requests.get("https://httpbin.org/", auth=("user","passwd"))
@@ -153,13 +157,42 @@ get_my_repos = session.get("https://api.github.com/user/repos")
 cookie = {"they key the site is expecting": "a valid value, apparently, only strings are allowed?"}
 
 cookie_test = session.get("https://httpbin.org/cookies", cookies=cookie)
-print(cookie_test.json())
+#print(cookie_test.json())
 
 session.cookies.update({"another cookies":"200"})
 
 cookie_test_2 = session.get("https://httpbin.org/cookies", cookies=cookie)
-print(cookie_test_2.json())
+#print(cookie_test_2.json())
 
 
+#Redirections:
+#.status_code only shows the final, absolute status code returned, not what actually happened behind the scenes.
 
+redirect_test = requests.get("https://httpbin.org//absolute-redirect/5")
+#print(redirect_test.history)
+#print(redirect_test.status_code)
 
+#The allow_redirects property changes that
+redirect_test2 = requests.get("https://httpbin.org//absolute-redirect/5", allow_redirects=False)
+#print(redirect_test2.history)
+#print(redirect_test2.status_code)
+
+#Timeouts:
+#The timeout property declares how long a response can take to arrive before the connection is closed and an error thrown.
+"""
+try:
+    fast_connection = requests.get("https://httpbin.org/delay/1", timeout=5)
+    print(fast_connection.status_code)
+except:
+    print("Timed Out")
+try:
+    slow_connection = requests.get("https://httpbin.org/delay/7", timeout=5)
+    print(slow_connection.status_code)
+except:
+    print("Timed Out")
+"""
+
+#File attachments 
+attachment={"file": open("SDET Training Course/README.txt", "rb")}
+file_res = requests.get("https://httpbin.org/anything", files=attachment)
+print(file_res.text)
