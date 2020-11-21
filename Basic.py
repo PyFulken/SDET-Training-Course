@@ -140,7 +140,26 @@ print(authenticated_get.status_code)
 session = requests.session()
 session.auth = login_token
 
+#sessionname.auth/cookies/etc also have the .update(new stuff) method for easy data changing.
+
 get_my_repos = session.get("https://api.github.com/user/repos")
 
-for name in get_my_repos.json():
-    print(name["name"])
+#for name in get_my_repos.json():
+    #print(name["name"])
+
+
+#Cookies: What are they, what do they do, how can I sue sites that abuse them?
+#They are more dictionaries.
+cookie = {"they key the site is expecting": "a valid value, apparently, only strings are allowed?"}
+
+cookie_test = session.get("https://httpbin.org/cookies", cookies=cookie)
+print(cookie_test.json())
+
+session.cookies.update({"another cookies":"200"})
+
+cookie_test_2 = session.get("https://httpbin.org/cookies", cookies=cookie)
+print(cookie_test_2.json())
+
+
+
+
