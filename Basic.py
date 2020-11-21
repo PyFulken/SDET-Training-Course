@@ -120,9 +120,27 @@ print(post_url)
 
 #Handling Authentication required for API requesting:
 from utilities.credentials import *
-print(get_user())
-print(get_pass())
-authenticated_get = requests.get('https://api.github.com/user', auth=(get_user(), get_pass()))
-another_get=requests.get("https://httpbin.org/", auth=("user","passwd"))
+login_token = (get_User(), get_OAuth())
+authenticated_get = requests.get('https://api.github.com/user', auth=login_token)
 print(authenticated_get.status_code)
-print(another_get.status_code)
+
+#GitHub disabled pasword logins via APIs, only OAuth is allowed. And it's a success!
+#another_get=requests.get("https://httpbin.org/", auth=("user","passwd"))
+#print(another_get.status_code)
+
+#get_my_repos = requests.get("https://api.github.com/user/repos", auth=login_token)
+
+#for name in get_my_repos.json():
+    #print(name["name"])
+
+#To prevent having to pass authentication at every call, use the session() method to preserve auth.
+#To use that session, replace requests. with sessionname.stuff
+#Sessions have all the requests methods plus any aditional configuration declared. 
+
+session = requests.session()
+session.auth = login_token
+
+get_my_repos = session.get("https://api.github.com/user/repos")
+
+for name in get_my_repos.json():
+    print(name["name"])
