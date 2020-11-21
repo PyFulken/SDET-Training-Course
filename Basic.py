@@ -193,6 +193,8 @@ except:
 """
 
 #File attachments 
+#Create a variable with a dict containing the key file and open("filepath", "rb")
+#Use requests.post method.
 attachment={"file": open("SDET Training Course/README.txt", "rb")}
-file_res = requests.get("https://httpbin.org/anything", files=attachment)
+file_res = requests.post("https://httpbin.org/anything", files=attachment)
 print(file_res.text)
