@@ -1,6 +1,7 @@
 import json
 import requests
 from configuration import *
+from sql_connector import *
 
 #Training API URL = http://216.10.245.166
 
@@ -194,6 +195,15 @@ except:
 attachment={"file": open("SDET Training Course/README.txt", "rb")}
 try:
     file_res = requests.post("https://httpbin.org/anything", files=attachment)
+except Exception as e:
+    print(e)
+    SystemExit
+
+#Test Automatically Generated Payloads
+
+try:
+    generated_payload_response = requests.post("https://httpbin.org/anything", json=payload_generator("1")) #Will fail due to table not containing "TestCase"
+    print(generated_payload_response.text)
 except Exception as e:
     print(e)
     SystemExit

@@ -30,15 +30,26 @@ connector.close()
 
 #Build a JSON payload from a DB:
 
-connector, cursor = SQL_CONNECT()
+def payload_generator(test_case):
+    payload = {"app": "", "date": "", "quantity": "", "location": ""}
+    try:
+        connector, cursor = SQL_CONNECT()
 
-payload = {"app": "", "date": "", "quantity": "", "location": ""}
-query = "SELECT * FROM CustomerInfo"
-cursor.execute(query)
-row = cursor.fetchone()
-payload["app"]=row[0]
-payload["date"]=row[1]
-payload["quantity"]=row[2]
-payload["location"]=row[3]
+        query = "SELECT * FROM CustomerInfo WHERE TestCase = %s"
+        cursor.execute(query, test_case)
+        row = cursor.fetchone()
+        payload["app"]=row[0]
+        payload["date"]=row[1]
+        payload["quantity"]=row[2]
+        payload["location"]=row[3]
 
-print(payload)
+        connector.close()
+
+    except Exception as e:
+        print(e)
+        payload["app"]="Default"
+        payload["date"]="Default"
+        payload["quantity"]="Default"
+        payload["location"]="Default"
+        
+    return payload
