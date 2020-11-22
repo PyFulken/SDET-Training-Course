@@ -1,12 +1,6 @@
-import mysql.connector
-from utilities.credentials import *
-from utilities.configuration import *
+from configuration import *
 
-connector = mysql.connector.connect(host=Get_Host(), database=Get_DB(), user=get_SQL_user(), password=get_SQL_pass())
-
-print(connector.is_connected())
-
-cursor = connector.cursor()
+connector, cursor = SQL_CONNECT()
 
 cursor.execute("SELECT * FROM CustomerInfo")            
 a_single_row = cursor.fetchone()
@@ -25,12 +19,26 @@ connector.close()
 
 #Queries with interchangeable data
 
-connector = Get_DB_Connection(get_SQL_user(), get_SQL_pass())
-
-cursor = connector.cursor()
+connector, cursor = SQL_CONNECT()
 
 query = "UPDATE CustomerInfo SET Location = %s WHERE CourseName = %s"
 data = ("US", "Appium")                                                 #Note: Tuple, where order matters. 1st %s = tuple[0], 2nd %s = tuple[1], etc.
 
 cursor.execute(query, data)
 connector.commit()                                                      #Note: Commit is needed like git. The method is for the CONNECTOR, not the cursor.
+connector.close()
+
+#Build a JSON payload from a DB:
+
+connector, cursor = SQL_CONNECT()
+
+payload = {"app": "", "date": "", "quantity": "", "location": ""}
+query = "SELECT * FROM CustomerInfo"
+cursor.execute(query)
+row = cursor.fetchone()
+payload["app"]=row[0]
+payload["date"]=row[1]
+payload["quantity"]=row[2]
+payload["location"]=row[3]
+
+print(payload)
