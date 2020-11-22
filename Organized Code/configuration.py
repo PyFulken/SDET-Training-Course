@@ -7,14 +7,14 @@ from dotenv import load_dotenv
 load_dotenv()
 
 #GIT
-def OAUTH_TOKEN():
+def GIT_OAUTH():
     var = os.getenv("OAUTH_TOKEN")
     return var
 
 def GIT_USER():
     return os.getenv("GIT_USER")
 
-def GIT_API_URL():
+def GIT_URL():
     return os.getenv("GIT_API_URL")
 
 #SQL
