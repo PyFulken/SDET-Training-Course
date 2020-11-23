@@ -53,3 +53,26 @@ def step_impl(context):
 #To call these "global" variables, use contex.varname
 
 # behave --no-capture is required for unsuppressing any print statements.
+
+
+#---------------------------------------------------------------------------------------------------------------------------------------------
+#WHEN YOU HAVE A SET OF DATA TO TEST:
+#---------------------------------------------------------------------------------------------------------------------------------------------
+
+
+@given("The numbers {number} and {multiplier}")
+def step_impl(context, number, multiplier):
+    context.doubled = int(number) * int(multiplier)
+    assert type(context.doubled) == int
+
+@then("The answer is it doubled")
+def step_impl(context):
+    print(context.doubled)
+
+
+
+
+
+
+
+

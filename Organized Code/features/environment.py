@@ -22,8 +22,9 @@ before_all(context), after_all(context)
     These run before and after the whole shooting match. 
 
 """
-
-def after_feature(context, scenario):
+"""
+def after_scenario(context, scenario):
     print("------------------------------------------------------------------------------------------------------------------------------")
     print(f"The payload created during the scenario was {context.payload}")
     print("------------------------------------------------------------------------------------------------------------------------------")
+"""
