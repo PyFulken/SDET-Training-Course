@@ -28,6 +28,7 @@
 # pylint: disable=function-redefined
 # pylint: disable=import-error
 
+import requests
 from behave import given, when, then
 from sql_connector import payload_generator
 
@@ -39,8 +40,12 @@ def step_impl(context):
 
 @when('The post request is issued')
 def step_impl(context):
-    assert True
+    payload = {"app": "Default", "date": "Default", "quantity": "Default", "location": "Default"}
+    file_res = requests.post("https://httpbin.org/anything", files=payload)
+    assert file_res.status_code == 200
 
 @then('A response with the payload is recieved')
 def step_impl(context):
-    assert True
+    payload = {"app": "Default", "date": "Default", "quantity": "Default", "location": "Default"}
+    file_res = requests.post("https://httpbin.org/anything", files=payload)
+    assert payload == file_res.json()["files"]

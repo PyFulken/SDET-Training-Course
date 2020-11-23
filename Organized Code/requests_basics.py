@@ -192,7 +192,7 @@ except:
 #Create a variable with a dict containing the key file and open("filepath", "rb")
 #Use requests.post method.
 
-attachment={"file": open("SDET Training Course/README.txt", "rb")}
+attachment={"file": open("README.txt", "rb")}
 try:
     file_res = requests.post("https://httpbin.org/anything", files=attachment)
 except Exception as e:
