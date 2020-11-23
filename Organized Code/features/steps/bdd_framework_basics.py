@@ -34,18 +34,15 @@ from sql_connector import payload_generator
 
 @given("The generated Payload through payload_generator()")
 def step_impl(context):
-    payload = payload_generator("001")
+    context.payload = payload_generator("001")
     expected_payload = {"app": "Default", "date": "Default", "quantity": "Default", "location": "Default"}
-    assert payload == expected_payload, "Payload Incorrect"
+    assert context.payload == expected_payload, "Payload Incorrect"
 
 @when('The post request is issued')
 def step_impl(context):
-    payload = {"app": "Default", "date": "Default", "quantity": "Default", "location": "Default"}
-    file_res = requests.post("https://httpbin.org/anything", files=payload)
-    assert file_res.status_code == 200
+    context.file_res = requests.post("https://httpbin.org/anything", files=context.payload)
+    assert context.file_res.status_code == 200
 
 @then('A response with the payload is recieved')
 def step_impl(context):
-    payload = {"app": "Default", "date": "Default", "quantity": "Default", "location": "Default"}
-    file_res = requests.post("https://httpbin.org/anything", files=payload)
-    assert payload == file_res.json()["files"]
+    assert context.payload == context.file_res.json()["files"]
