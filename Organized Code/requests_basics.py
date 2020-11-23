@@ -1,3 +1,4 @@
+# pylint: disable=unused-wildcard-import
 import json
 import requests
 from configuration import *
