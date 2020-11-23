@@ -36,8 +36,8 @@ def payload_generator(test_case):
     try:
         connector, cursor = SQL_CONNECT()
 
-        query = "SELECT * FROM CustomerInfo WHERE TestCase = %s"
-        cursor.execute(query, test_case)
+        query = f"SELECT * FROM CustomerInfo WHERE TestCase = {test_case}"
+        cursor.execute(query)
         row = cursor.fetchone()
         payload["app"]=row[0]
         payload["date"]=row[1]
