@@ -1,3 +1,4 @@
+# pylint: disable=unused-wildcard-import
 from configuration import *
 
 connector, cursor = SQL_CONNECT()
