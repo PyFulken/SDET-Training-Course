@@ -20,6 +20,7 @@
 #Actual code:
 #Once behave is typed in the terminal to run the tests, Cucumber will run the "tests" files until it encounters a Keyword/Tag (GIVEN, THEN, WHEN, etc)
 #Then it will parse the steps folder's python files until it finds a function with the same TAG and STRING
+#behave --no-context --no-skipped tags="@taghere" > log.txt 
 
 
 # Comments below are a way to disable pylint's buggy interactions with BDDs. Yes, they are meant to be in comment form.

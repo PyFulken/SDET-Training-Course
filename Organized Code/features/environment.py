@@ -22,9 +22,11 @@ before_all(context), after_all(context)
     These run before and after the whole shooting match. 
 
 """
-"""
+
 def after_scenario(context, scenario):
-    print("------------------------------------------------------------------------------------------------------------------------------")
-    print(f"The payload created during the scenario was {context.payload}")
-    print("------------------------------------------------------------------------------------------------------------------------------")
-"""
+    #This will make any test fail that does not produce a context.payload
+    #Hence, we can make this only run after scenarios with the tags we want it to run on. (remember to not put the @ in)
+    if "API" in scenario.tags:
+        print("------------------------------------------------------------------------------------------------------------------------------")
+        print(f"The payload created during the scenario was {context.payload}")
+        print("------------------------------------------------------------------------------------------------------------------------------")
