@@ -15,7 +15,7 @@ mon_list_rows = soup.findAll("tr")
 mon_list = []
 mon_urls = ""
 for row in mon_list_rows:
-    if 'Zorah Magdaros' in mon_list:
+    if 'Zorah Magdaros' in mon_list or 'zorah' in mon_urls:
             break
     """
     for img in row.findAll("img", alt=True):
