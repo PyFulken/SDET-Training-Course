@@ -13,14 +13,24 @@ soup = BeautifulSoup(html_res.content, "html.parser")
 mon_list_table = soup.findAll("table", {"class": "table table-sm"})
 mon_list_rows = soup.findAll("tr")
 mon_list = []
+mon_urls = ""
 for row in mon_list_rows:
     if 'Zorah Magdaros' in mon_list:
             break
+    """
     for img in row.findAll("img", alt=True):
         mon_list.append(img["alt"])
         image = img["src"]
         with open(f"SDET Training Course/WebScrapping/Icons/{img['alt']}.png","wb+") as f:
             f.write(requests.get(image).content)
             f.close()
+    """
 
-print(mon_list)
+    for link in row.findAll("a", {"class": "d-block"}):
+        if "monsters" in link["href"]:
+            mon_urls +=f'{link["href"]}\n'
+
+with open(f"SDET Training Course/WebScrapping/monster_links.txt","w") as f:
+            f.write(mon_urls)
+            f.close()
+    
