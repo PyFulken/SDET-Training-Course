@@ -1,0 +1,1 @@
+Both AWS and Google Cloud required credit card information to create Linux VMs, so this is more of a follow-along.
